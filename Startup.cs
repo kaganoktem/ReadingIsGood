@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ReadingIsGood.DomainInterfaces;
+using ReadingIsGood.DomainServices;
 using ReadingIsGood.Persistence;
 using System;
 using System.Collections.Generic;
@@ -30,9 +32,15 @@ namespace ReadingIsGood
         {
             services.AddDbContext<ReadingIsGoodDbContext>(opt => 
             {
-                opt.UseSqlServer("server=.;database=ReadingIsGood;User Id=sa;password=abc123");
+                // IIS Express ve Internal MSSQL EXPRESS veritabaný baðlantý cümlesi
+                //opt.UseSqlServer("server=.;database=ReadingIsGood;User Id=sa;Password=abc123,Persist Security Info=true;Trusted_Connection=True;");
+                
+                // Docker-LinuxUbuntu ve MSSQL Express baðlantý cümlesi
+                opt.UseSqlServer("Server=192.168.80.1,1401;Database=ReadingIsGood;User Id=sa;Password=1q2w3e4r5t6y!");
             });
             services.AddControllers();
+            services.AddTransient<IReadingIsGoodRepository, ReadingIsGoodRepository>();
+            services.AddSingleton<ICacheService, CacheService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReadingIsGood", Version = "v1" });
