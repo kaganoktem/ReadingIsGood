@@ -23,6 +23,11 @@ namespace ReadingIsGood.Dtos
         public DateTime OrderDate { get; set; }
 
         /// <summary>
+        /// İstenen kitabın adı
+        /// </summary>
+        public string BookName { get; set; }
+
+        /// <summary>
         /// foreign key - bookStock Sipariş verilen kitabın bilgisi
         /// </summary>
         public int BookId { get; set; }

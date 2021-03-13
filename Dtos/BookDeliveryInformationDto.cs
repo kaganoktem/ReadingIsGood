@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ReadingIsGood.Dtos.Enumerations;
 
 namespace ReadingIsGood.Dtos
 {
@@ -15,12 +16,17 @@ namespace ReadingIsGood.Dtos
         /// <summary>
         /// Foreign key - kullanıcı id - siparişi veren kullanıcı
         /// </summary>
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// Foreign key - sipariş edilen kitap id bilgisi
         /// </summary>
-        public int bookId { get; set; }
+        public int BookId { get; set; }
+
+        /// <summary>
+        /// Kitap sipariş ulaştırılma durumu
+        /// </summary>
+        public BookDeliveryStatus BookDeliveryStatus { get; set; }
 
         /// <summary>
         /// Kitabın sipariş verilme zamanı

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using ReadingIsGood.Dtos;
+using ReadingIsGood.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +21,26 @@ namespace ReadingIsGood.Persistence
             this.readingIsGoodDbContext = readingIsGoodDbContext;
         }
 
-        public bool Authenticate(string username, string password)
+        public int Authenticate(string username, string password)
         {
             using (readingIsGoodDbContext)
             {
                 var query = from customers in this.readingIsGoodDbContext.Customers
                             where customers.Surname.Equals(username) && customers.Password.Equals(password)
                             select customers;
-                return query.Any();
+                if (query.Any()) 
+                {
+                    var userId = query.FirstOrDefault().Id;
+                    return userId;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
-        public IEnumerable<CustomerDto> GetAllCustomers() 
+        public IEnumerable<CustomerDto> GetAllCustomers()
         {
             using (readingIsGoodDbContext)
             {
@@ -46,6 +55,55 @@ namespace ReadingIsGood.Persistence
                             };
                 return query.ToList();
             }
+        }
+
+        public BooksStockDto GetBookFromStockByBookName(string bookName)
+        {
+            using (readingIsGoodDbContext)
+            {
+                var query = from book in this.readingIsGoodDbContext.BooksStocks
+                            select new BooksStockDto
+                            {
+                                Id = book.Id,
+                                Name = book.Name,
+                                NumberofBooks = book.NumberofBooks
+                            };
+
+                return query.FirstOrDefault();
+            }
+        }
+
+        public int CreateNewCustomer(Customer customer)
+        {
+            using (readingIsGoodDbContext)
+            {
+                readingIsGoodDbContext.Customers.Add(customer);
+                readingIsGoodDbContext.SaveChanges();
+            }
+
+            return customer.Id;
+        }
+
+        public int CreateNewOrder(Order order)
+        {
+            using (readingIsGoodDbContext)
+            {
+                readingIsGoodDbContext.Orders.Add(order);
+                readingIsGoodDbContext.SaveChanges();
+            }
+
+            return order.Id;
+        }
+
+        public int CreateNewDeliveryInformation(BookDeliveryInformation deliveryInfo)
+        {
+            using (readingIsGoodDbContext)
+            {
+                readingIsGoodDbContext.BookDeliveryInformations.Add(deliveryInfo);
+                readingIsGoodDbContext.SaveChanges();
+            }
+
+            return deliveryInfo.Id;
         }
     }
 }

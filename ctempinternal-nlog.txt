@@ -118,3 +118,23 @@
 2021-03-12 21:57:55.7441 Info Adding target FileTarget(Name=allfile)
 2021-03-12 21:57:55.7555 Info Adding target FileTarget(Name=ownFile-web)
 2021-03-12 21:57:55.7854 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=/app/bin/Debug/net5.0/nlog.config
+2021-03-13 21:09:24.6656 Info Message Template Auto Format enabled
+2021-03-13 21:09:24.7003 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-13 21:09:24.7546 Info Adding target FileTarget(Name=allfile)
+2021-03-13 21:09:24.7686 Info Adding target FileTarget(Name=ownFile-web)
+2021-03-13 21:09:24.8003 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=/app/bin/Debug/net5.0/nlog.config
+2021-03-13 21:24:54.7440 Info Message Template Auto Format enabled
+2021-03-13 21:24:54.7613 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-13 21:24:54.8180 Info Adding target FileTarget(Name=allfile)
+2021-03-13 21:24:54.8286 Info Adding target FileTarget(Name=ownFile-web)
+2021-03-13 21:24:54.8581 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=/app/bin/Debug/net5.0/nlog.config
+2021-03-13 21:27:08.8805 Info Message Template Auto Format enabled
+2021-03-13 21:27:08.8976 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-13 21:27:08.9512 Info Adding target FileTarget(Name=allfile)
+2021-03-13 21:27:08.9560 Info Adding target FileTarget(Name=ownFile-web)
+2021-03-13 21:27:08.9945 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=/app/bin/Debug/net5.0/nlog.config
+2021-03-13 21:29:31.7026 Info Message Template Auto Format enabled
+2021-03-13 21:29:31.7249 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-13 21:29:31.7811 Info Adding target FileTarget(Name=allfile)
+2021-03-13 21:29:31.7847 Info Adding target FileTarget(Name=ownFile-web)
+2021-03-13 21:29:31.8239 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=/app/bin/Debug/net5.0/nlog.config

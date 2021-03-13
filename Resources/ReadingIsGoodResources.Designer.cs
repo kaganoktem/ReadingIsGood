@@ -72,9 +72,9 @@ namespace ReadingIsGood.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} alanı boş olamaz..
         /// </summary>
-        public static string Error_InvalidParameter {
+        public static string Error_EmptyParameter {
             get {
-                return ResourceManager.GetString("Error_InvalidParameter", resourceCulture);
+                return ResourceManager.GetString("Error_EmptyParameter", resourceCulture);
             }
         }
         
@@ -84,6 +84,69 @@ namespace ReadingIsGood.Resources {
         public static string Error_NotAuthorizedUser {
             get {
                 return ResourceManager.GetString("Error_NotAuthorizedUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stokta istediğiniz kadar kitap bulunmamaktadır..
+        /// </summary>
+        public static string Error_NotEnoughBookAtStock {
+            get {
+                return ResourceManager.GetString("Error_NotEnoughBookAtStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to İstediğiniz kitap stoklarda bulunamadı..
+        /// </summary>
+        public static string Error_NotFoundBookAtStock {
+            get {
+                return ResourceManager.GetString("Error_NotFoundBookAtStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} alanı sıfır veya sıfırdan küçük girilemez..
+        /// </summary>
+        public static string Error_ParameterCantBeLessThanOrEqualToZero {
+            get {
+                return ResourceManager.GetString("Error_ParameterCantBeLessThanOrEqualToZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Girdiğiniz şifreler birbirinden farklıdır..
+        /// </summary>
+        public static string Error_PasswordIsNotMatched {
+            get {
+                return ResourceManager.GetString("Error_PasswordIsNotMatched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcıya ait sisteme gereçli giriş bulunamadı. Lütfen tekrar giriş yapın..
+        /// </summary>
+        public static string Error_SessionNotFound {
+            get {
+                return ResourceManager.GetString("Error_SessionNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı bilgisi bulunamadı..
+        /// </summary>
+        public static string Error_UserInfosAreNotValid {
+            get {
+                return ResourceManager.GetString("Error_UserInfosAreNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} kullanıcısı sisteme giriş yaptı..
+        /// </summary>
+        public static string Info_AuthenticationSuccess {
+            get {
+                return ResourceManager.GetString("Info_AuthenticationSuccess", resourceCulture);
             }
         }
         

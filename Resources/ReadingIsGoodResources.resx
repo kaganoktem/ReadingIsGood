@@ -120,11 +120,32 @@
   <data name="CacheSessionListKey" xml:space="preserve">
     <value>sessionList</value>
   </data>
-  <data name="Error_InvalidParameter" xml:space="preserve">
+  <data name="Error_EmptyParameter" xml:space="preserve">
     <value>{0} alanı boş olamaz.</value>
   </data>
   <data name="Error_NotAuthorizedUser" xml:space="preserve">
     <value>Bu işlemi yapmak için yetkili değilsiniz.</value>
+  </data>
+  <data name="Error_NotEnoughBookAtStock" xml:space="preserve">
+    <value>Stokta istediğiniz kadar kitap bulunmamaktadır.</value>
+  </data>
+  <data name="Error_NotFoundBookAtStock" xml:space="preserve">
+    <value>İstediğiniz kitap stoklarda bulunamadı.</value>
+  </data>
+  <data name="Error_ParameterCantBeLessThanOrEqualToZero" xml:space="preserve">
+    <value>{0} alanı sıfır veya sıfırdan küçük girilemez.</value>
+  </data>
+  <data name="Error_PasswordIsNotMatched" xml:space="preserve">
+    <value>Girdiğiniz şifreler birbirinden farklıdır.</value>
+  </data>
+  <data name="Error_SessionNotFound" xml:space="preserve">
+    <value>Kullanıcıya ait sisteme gereçli giriş bulunamadı. Lütfen tekrar giriş yapın.</value>
+  </data>
+  <data name="Error_UserInfosAreNotValid" xml:space="preserve">
+    <value>Kullanıcı bilgisi bulunamadı.</value>
+  </data>
+  <data name="Info_AuthenticationSuccess" xml:space="preserve">
+    <value>{0} kullanıcısı sisteme giriş yaptı.</value>
   </data>
   <data name="Info_AuthorizationSuccess" xml:space="preserve">
     <value>{0} kullanıcısı için doğrulama başarılı.</value>

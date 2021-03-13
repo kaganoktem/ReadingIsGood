@@ -3,38 +3,31 @@ using Microsoft.Extensions.Logging;
 using ReadingIsGood.DomainInterfaces;
 using ReadingIsGood.Dtos;
 using ReadingIsGood.Persistence;
+using ReadingIsGood.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ReadingIsGood.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerAuthenticationController : ControllerBase
+    public class CustomerAuthenticationController : ApiControllerBase<CustomerAuthenticationController>
     {
-        private readonly ILogger<CustomerController> logger;
-        private readonly IReadingIsGoodRepository readingIsGoodRepository;
-        private readonly ICacheService cacheService;
-
-        public CustomerAuthenticationController(ILogger<CustomerController> logger, IReadingIsGoodRepository readingIsGoodRepository,
-            ICacheService cacheService)
+        public CustomerAuthenticationController(ILogger<CustomerAuthenticationController> logger,
+            IReadingIsGoodRepository readingIsGoodRepository, ICacheService cacheService)
+            : base(logger, readingIsGoodRepository, cacheService)
         {
-            this.logger = logger;
-            this.cacheService = cacheService;
-            this.readingIsGoodRepository = readingIsGoodRepository;
         }
 
         [HttpGet]
         public IActionResult Authenticate(string username, string password)
         {
-            var dbResult = readingIsGoodRepository.Authenticate(username, password);
+            var userId = readingIsGoodRepository.Authenticate(username, password);
             string token = null;
-            if (dbResult)
+            if (userId != 0)
             {
                 token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-                List<SessionDto> sessionList = (List<SessionDto>)cacheService.GetItem("sessionList");
+                List<SessionDto> sessionList = (List<SessionDto>)cacheService.GetItem(ReadingIsGoodResources.CacheSessionListKey);
                 if (sessionList == null)
                 {
                     sessionList = new List<SessionDto>();
@@ -43,7 +36,8 @@ namespace ReadingIsGood.Controllers
                 SessionDto sessionDto = new SessionDto
                 {
                     Token = token,
-                    username = username
+                    username = username,
+                    userId = userId
                 };
                 
                 if (sessionList != null)
@@ -52,11 +46,12 @@ namespace ReadingIsGood.Controllers
                 }
                 
 
-                cacheService.AddItem("sessionList", sessionList);
-                logger.LogInformation(username + " kullanıcısı giriş yaptı");
+                cacheService.AddItem(ReadingIsGoodResources.CacheSessionListKey, sessionList);
+                logger.LogInformation(string.Format(ReadingIsGoodResources.Info_AuthenticationSuccess, username));
+                return Ok(token);
             }
 
-            return Ok(token);
+            return Problem(ReadingIsGoodResources.Error_UserInfosAreNotValid);
         }
     }
 }

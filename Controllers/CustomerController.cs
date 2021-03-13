@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ReadingIsGood.DomainInterfaces;
 using ReadingIsGood.Dtos;
+using ReadingIsGood.Entities;
 using ReadingIsGood.Persistence;
 using ReadingIsGood.Resources;
 using System;
@@ -12,97 +13,110 @@ namespace ReadingIsGood.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController : ApiControllerBase<CustomerController>
     {
-        private readonly ILogger<CustomerController> logger;
-        private readonly IReadingIsGoodRepository readingIsGoodRepository;
-        private readonly ICacheService cacheService;
-
-        public CustomerController(ILogger<CustomerController> logger, ICacheService cacheService,
-            IReadingIsGoodRepository readingIsGoodRepository)
+        public CustomerController(ILogger<CustomerController> logger, IReadingIsGoodRepository readingIsGoodRepository,
+            ICacheService cacheService) : base(logger, readingIsGoodRepository, cacheService)
         {
-            this.logger = logger;
-            this.cacheService = cacheService;
-            this.readingIsGoodRepository = readingIsGoodRepository;
-            logger.LogInformation("Let's start coding");
         }
 
         [HttpGet]
         public IActionResult GetAllCustomers(string token)
         {
-            var serviceResult = IsAuthorized(token);
-            if (serviceResult.IsSuccess)
+            var authorizationResult = IsAuthorized(token);
+            if (authorizationResult.IsSuccess)
             {
                 var dbResult = readingIsGoodRepository.GetAllCustomers();
                 return Ok(dbResult);
             }
 
-            return Ok(serviceResult.Rex);
+            return Ok(authorizationResult.Rex);
         }
 
-
-
-        private ServiceResultDto IsAuthorized(string token) 
+        [HttpPost]
+        public IActionResult CreateNewCustomer(string name, string surname, string username, string password, string passwordAgain, string address)
         {
             ReadingIsGoodException rex;
-            ServiceResultDto serviceResult;
-            if (string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(passwordAgain) || string.IsNullOrEmpty(address)) 
             {
-                rex = new ReadingIsGoodException
+                if (string.IsNullOrEmpty(name)) 
                 {
-                    ExceptionMessage = string.Format(ReadingIsGoodResources.Error_InvalidParameter, nameof(token))
-                };
-
-                logger.LogInformation(string.Format(ReadingIsGoodResources.Error_InvalidParameter, nameof(token)));
-                serviceResult = new ServiceResultDto
-                {
-                    IsSuccess = false,
-                    Rex = rex
-                };
-
-                return serviceResult;
-            }
-
-            var sessionObject = cacheService.GetItem(ReadingIsGoodResources.CacheSessionListKey);
-            List<SessionDto> sessionList = sessionObject as List<SessionDto>;
-            if (sessionList == null)
-            {
-                rex = new ReadingIsGoodException
-                {
-                    ExceptionMessage = ReadingIsGoodResources.Error_NotAuthorizedUser
-                };
-
-                serviceResult = new ServiceResultDto
-                {
-                    IsSuccess = false,
-                    Rex = rex
-                };
-
-                return serviceResult;
-            }
-
-            foreach (var session in sessionList)
-            {
-                if (session.Token.Equals(token))
-                {
-                    logger.LogInformation(string.Format(ReadingIsGoodResources.Info_AuthorizationSuccess, session.username));
-                    serviceResult = new ServiceResultDto
+                    logger.LogError(string.Format(ReadingIsGoodResources.Error_EmptyParameter, name));
+                    rex = new ReadingIsGoodException
                     {
-                        IsSuccess = true,
-                        Result = true
+                        ExceptionMessage = string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(name))
                     };
 
-                    return serviceResult;
+                    return Problem(rex.ExceptionMessage);
+                }
+
+                if (string.IsNullOrEmpty(surname))
+                {
+                    logger.LogError(string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(surname)));
+                    rex = new ReadingIsGoodException
+                    {
+                        ExceptionMessage = string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(surname))
+                    };
+
+                    return Problem(rex.ExceptionMessage);
+                }
+
+                if (string.IsNullOrEmpty(password))
+                {
+                    logger.LogError(string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(password)));
+                    rex = new ReadingIsGoodException
+                    {
+                        ExceptionMessage = string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(password))
+                    };
+
+                    return Problem(rex.ExceptionMessage);
+                }
+
+                if (string.IsNullOrEmpty(passwordAgain))
+                {
+                    logger.LogError(string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(passwordAgain)));
+                    rex = new ReadingIsGoodException
+                    {
+                        ExceptionMessage = string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(passwordAgain))
+                    };
+
+                    return Problem(rex.ExceptionMessage);
+                }
+
+                if (string.IsNullOrEmpty(address))
+                {
+                    logger.LogError(string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(address)));
+                    rex = new ReadingIsGoodException
+                    {
+                        ExceptionMessage = string.Format(ReadingIsGoodResources.Error_EmptyParameter, nameof(address))
+                    };
+
+                    return Problem(rex.ExceptionMessage);
                 }
             }
 
-            logger.LogError(ReadingIsGoodResources.Error_NotAuthorizedUser);
-            serviceResult = new ServiceResultDto
+            if (!password.Equals(passwordAgain))
             {
-                IsSuccess = false,
-            };
+                logger.LogError(ReadingIsGoodResources.Error_PasswordIsNotMatched);
+                rex = new ReadingIsGoodException
+                {
+                    ExceptionMessage = ReadingIsGoodResources.Error_PasswordIsNotMatched
+                };
 
-            return serviceResult;
+                return Problem(rex.ExceptionMessage);
+            }
+
+            Customer newCustomer = new Customer();
+            newCustomer.Address = address;
+            newCustomer.Name = name;
+            newCustomer.Password = password;
+            newCustomer.Surname = surname;
+            newCustomer.Username = username;
+
+            var dbResult = readingIsGoodRepository.CreateNewCustomer(newCustomer);
+            return Created(string.Empty, dbResult);
+
         }
     }
 }
