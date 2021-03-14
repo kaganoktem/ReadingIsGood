@@ -20,9 +20,12 @@ namespace ReadingIsGood
 {
     public class Startup
     {
+        private string dockerMssqlConnectionString;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            dockerMssqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public IConfiguration Configuration { get; }
@@ -30,13 +33,15 @@ namespace ReadingIsGood
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddDbContext<ReadingIsGoodDbContext>(opt => 
             {
                 // IIS Express ve Internal MSSQL EXPRESS veritabaný baðlantý cümlesi
                 //opt.UseSqlServer("server=.;database=ReadingIsGood;User Id=sa;Password=abc123,Persist Security Info=true;Trusted_Connection=True;");
                 
                 // Docker-LinuxUbuntu ve MSSQL Express baðlantý cümlesi
-                opt.UseSqlServer("Server=192.168.80.1,1401;Database=ReadingIsGood;User Id=sa;Password=1q2w3e4r5t6y!");
+                opt.UseSqlServer(dockerMssqlConnectionString);
             }, ServiceLifetime.Scoped);
             services.AddControllers();
             services.AddTransient<IReadingIsGoodRepository, ReadingIsGoodRepository>();
