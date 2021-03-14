@@ -39,7 +39,7 @@ namespace ReadingIsGood
                         logging.ClearProviders();
                         logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                     }).UseNLog().UseKestrel().UseUrls("http://0.0.0.0:" + Environment.GetEnvironmentVariable("PORT")).
-                        Build(
+                        Build();
                 });
     }
 }
