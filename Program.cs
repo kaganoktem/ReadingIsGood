@@ -38,7 +38,8 @@ namespace ReadingIsGood
                     {
                         logging.ClearProviders();
                         logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    }).UseNLog();  // NLog: setup NLog for Dependency injection;
+                    }).UseNLog().UseKestrel().UseUrls("http://0.0.0.0:" + Environment.GetEnvironmentVariable("PORT")).
+                        Build(
                 });
     }
 }
