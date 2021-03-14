@@ -79,6 +79,24 @@ namespace ReadingIsGood.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aynı isimli kitap mevcuttur..
+        /// </summary>
+        public static string Error_ExistingBook {
+            get {
+                return ResourceManager.GetString("Error_ExistingBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aynı kullanıcı adında kayıt mevcuttur..
+        /// </summary>
+        public static string Error_ExistingUser {
+            get {
+                return ResourceManager.GetString("Error_ExistingUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bu işlemi yapmak için yetkili değilsiniz..
         /// </summary>
         public static string Error_NotAuthorizedUser {
@@ -93,6 +111,24 @@ namespace ReadingIsGood.Resources {
         public static string Error_NotEnoughBookAtStock {
             get {
                 return ResourceManager.GetString("Error_NotEnoughBookAtStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sipariş Id&apos;si {0} olan sipariş için teslimat bilgisi bulunamadı..
+        /// </summary>
+        public static string Error_NotFoundAnyDeliveryInfo {
+            get {
+                return ResourceManager.GetString("Error_NotFoundAnyDeliveryInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {} kulanıcısına ait herhangi bir sipariş bulunmadı. .
+        /// </summary>
+        public static string Error_NotFoundAnyOrder {
+            get {
+                return ResourceManager.GetString("Error_NotFoundAnyOrder", resourceCulture);
             }
         }
         
@@ -156,6 +192,69 @@ namespace ReadingIsGood.Resources {
         public static string Info_AuthorizationSuccess {
             get {
                 return ResourceManager.GetString("Info_AuthorizationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} id&apos;li kitap stoğu güncellendi..
+        /// </summary>
+        public static string Info_BookStockUpdated {
+            get {
+                return ResourceManager.GetString("Info_BookStockUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} id&apos;li teslimat bilgisi eklendi..
+        /// </summary>
+        public static string Info_NewDeliveryInfoAdded {
+            get {
+                return ResourceManager.GetString("Info_NewDeliveryInfoAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} id&apos;li yeni sipariş eklendi..
+        /// </summary>
+        public static string Info_NewOrderAdded {
+            get {
+                return ResourceManager.GetString("Info_NewOrderAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} isimli yeni kitap stoklara eklendi..
+        /// </summary>
+        public static string Infor_BookCreateSuccess {
+            get {
+                return ResourceManager.GetString("Infor_BookCreateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} id&apos;li kitap güncelendi..
+        /// </summary>
+        public static string Infor_BookUpdateSuccess {
+            get {
+                return ResourceManager.GetString("Infor_BookUpdateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} id&apos;li .
+        /// </summary>
+        public static string Infor_DeliveryInfoUpdateSuccess {
+            get {
+                return ResourceManager.GetString("Infor_DeliveryInfoUpdateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} kullanıcısı başarıyla oluşturuldu..
+        /// </summary>
+        public static string Infor_UserCreateSuccess {
+            get {
+                return ResourceManager.GetString("Infor_UserCreateSuccess", resourceCulture);
             }
         }
     }

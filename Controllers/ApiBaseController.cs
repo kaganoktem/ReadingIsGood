@@ -4,27 +4,27 @@ using ReadingIsGood.DomainInterfaces;
 using ReadingIsGood.Dtos;
 using ReadingIsGood.Persistence;
 using ReadingIsGood.Resources;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ReadingIsGood.Controllers
 {
-    public class ApiControllerBase<T> : ControllerBase
+    public class ApiBaseController<T> : ControllerBase
     {
         public readonly ILogger<T> logger;
         public readonly IReadingIsGoodRepository readingIsGoodRepository;
         public readonly ICacheService cacheService;
+        public readonly ReadingIsGoodDbContext readingIsGoodDbContext;
 
-        public ApiControllerBase(ILogger<T> logger, IReadingIsGoodRepository readingIsGoodRepository,
-            ICacheService cacheService)
+        public ApiBaseController(ILogger<T> logger, IReadingIsGoodRepository readingIsGoodRepository,
+            ICacheService cacheService, ReadingIsGoodDbContext readingIsGoodDbContext)
         {
             this.logger = logger;
             this.readingIsGoodRepository = readingIsGoodRepository;
             this.cacheService = cacheService;
+            this.readingIsGoodDbContext = readingIsGoodDbContext;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ServiceResultDto IsAuthorized(string token)
         {
             ServiceResultDto serviceResult = new ServiceResultDto();
@@ -57,14 +57,21 @@ namespace ReadingIsGood.Controllers
             }
 
             logger.LogError(ReadingIsGoodResources.Error_NotAuthorizedUser);
+            ReadingIsGoodException rex = new ReadingIsGoodException
+            {
+                ExceptionMessage = ReadingIsGoodResources.Error_NotAuthorizedUser,
+            };
+
             serviceResult = new ServiceResultDto
             {
                 IsSuccess = false,
+                Rex = rex
             };
 
             return serviceResult;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         private ServiceResultDto ValidateAndGetSessionFromCache()
         {
             ServiceResultDto serviceResult = new ServiceResultDto();
@@ -96,6 +103,7 @@ namespace ReadingIsGood.Controllers
             return serviceResult;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ServiceResultDto GetCustomerInfoFromSessionToken(string token)
         {
             ServiceResultDto serviceResult;
@@ -142,6 +150,7 @@ namespace ReadingIsGood.Controllers
             return serviceResult;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ServiceResultDto ValidateEmptyStringParameter(string nameParameter, string parameterToValidate)
         {
             ReadingIsGoodException rex;

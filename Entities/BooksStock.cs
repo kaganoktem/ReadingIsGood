@@ -23,6 +23,6 @@ namespace ReadingIsGood.Entities
         /// <summary>
         /// Kitabın adı
         /// </summary>
-        public int Name { get; set; }
+        public string Name { get; set; }
     }
 }

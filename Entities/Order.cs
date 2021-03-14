@@ -34,5 +34,10 @@ namespace ReadingIsGood.Entities
         /// Navigation property
         /// </summary>
         public Customer Customer;
+
+        /// <summary>
+        /// Sipariş teslimat bilgileri
+        /// </summary>
+        public List<BookDeliveryInformation> BookDeliveryInformations { get; set; }
     }
 }

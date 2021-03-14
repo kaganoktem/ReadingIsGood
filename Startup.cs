@@ -37,7 +37,7 @@ namespace ReadingIsGood
                 
                 // Docker-LinuxUbuntu ve MSSQL Express baðlantý cümlesi
                 opt.UseSqlServer("Server=192.168.80.1,1401;Database=ReadingIsGood;User Id=sa;Password=1q2w3e4r5t6y!");
-            });
+            }, ServiceLifetime.Scoped);
             services.AddControllers();
             services.AddTransient<IReadingIsGoodRepository, ReadingIsGoodRepository>();
             services.AddSingleton<ICacheService, CacheService>();

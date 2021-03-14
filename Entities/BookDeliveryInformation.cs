@@ -24,6 +24,11 @@ namespace ReadingIsGood.Entities
         public int BookId { get; set; }
 
         /// <summary>
+        /// Foreign key - sipariş edilen kitap id bilgisi
+        /// </summary>
+        public int OrderId { get; set; }
+
+        /// <summary>
         /// Kitap sipariş ulaştırılma durumu
         /// </summary>
         public BookDeliveryStatus BookDeliveryStatus { get; set; }
@@ -42,5 +47,10 @@ namespace ReadingIsGood.Entities
         /// Teslim edildi bilgisi
         /// </summary>
         public bool? IsDelivered { get; set; }
+
+        /// <summary>
+        /// Navigation property
+        /// </summary>
+        public Order Order;
     }
 }

@@ -45,7 +45,12 @@ namespace ReadingIsGood.Persistence
 
             modelBuilder.Entity<BooksStock>().Property(p => p.Name).IsRequired();
             modelBuilder.Entity<BooksStock>().Property(p => p.NumberofBooks).IsRequired();
-            
+
+            modelBuilder.Entity<BookDeliveryInformation>()
+                .HasOne(p => p.Order)
+                .WithMany(p => p.BookDeliveryInformations)
+                .HasForeignKey(p => p.OrderId);
+
             modelBuilder.Entity<BookDeliveryInformation>().Property(p => p.BookId).IsRequired();
             modelBuilder.Entity<BookDeliveryInformation>().Property(p => p.UserId).IsRequired();
         }

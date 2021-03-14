@@ -14,7 +14,7 @@ namespace ReadingIsGood.DomainServices
 
         public CacheService()
         {
-            Cache = new MemoryCache(new MemoryCacheOptions { SizeLimit = 1024 });
+            Cache = new MemoryCache(new MemoryCacheOptions {  });
         }
 
         public void AddItem(string key, object value)

@@ -10,16 +10,17 @@ using System.Collections.Generic;
 namespace ReadingIsGood.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CustomerAuthenticationController : ApiControllerBase<CustomerAuthenticationController>
+    [Route("api/[controller]/[action]")]
+    public class CustomerAuthenticationController : ApiBaseController<CustomerAuthenticationController>
     {
         public CustomerAuthenticationController(ILogger<CustomerAuthenticationController> logger,
-            IReadingIsGoodRepository readingIsGoodRepository, ICacheService cacheService)
-            : base(logger, readingIsGoodRepository, cacheService)
+            IReadingIsGoodRepository readingIsGoodRepository, ICacheService cacheService, ReadingIsGoodDbContext readingIsGoodDbContext)
+            : base(logger, readingIsGoodRepository, cacheService, readingIsGoodDbContext)
         {
         }
 
         [HttpGet]
+        [ActionName("Authenticate")]
         public IActionResult Authenticate(string username, string password)
         {
             var userId = readingIsGoodRepository.Authenticate(username, password);

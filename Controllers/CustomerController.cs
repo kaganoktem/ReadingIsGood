@@ -5,22 +5,21 @@ using ReadingIsGood.Dtos;
 using ReadingIsGood.Entities;
 using ReadingIsGood.Persistence;
 using ReadingIsGood.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ReadingIsGood.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CustomerController : ApiControllerBase<CustomerController>
+    [Route("api/[controller]/[action]")]
+    public class CustomerController : ApiBaseController<CustomerController>
     {
         public CustomerController(ILogger<CustomerController> logger, IReadingIsGoodRepository readingIsGoodRepository,
-            ICacheService cacheService) : base(logger, readingIsGoodRepository, cacheService)
+            ICacheService cacheService, ReadingIsGoodDbContext readingIsGoodDbContext)
+            : base(logger, readingIsGoodRepository, cacheService, readingIsGoodDbContext)
         {
         }
 
         [HttpGet]
+        [ActionName("GetAllCustomers")]
         public IActionResult GetAllCustomers(string token)
         {
             var authorizationResult = IsAuthorized(token);
@@ -34,6 +33,7 @@ namespace ReadingIsGood.Controllers
         }
 
         [HttpPost]
+        [ActionName("CreateNewCustomer")]
         public IActionResult CreateNewCustomer(string name, string surname, string username, string password, string passwordAgain, string address)
         {
             ReadingIsGoodException rex;
@@ -107,6 +107,18 @@ namespace ReadingIsGood.Controllers
                 return Problem(rex.ExceptionMessage);
             }
 
+            var existingUser = readingIsGoodRepository.HasExistingCustomer(username);
+            if (existingUser)
+            {
+                logger.LogError(ReadingIsGoodResources.Error_ExistingUser);
+                rex = new ReadingIsGoodException
+                {
+                    ExceptionMessage = ReadingIsGoodResources.Error_ExistingUser
+                };
+                
+                return Problem(rex.ExceptionMessage);
+            }
+
             Customer newCustomer = new Customer();
             newCustomer.Address = address;
             newCustomer.Name = name;
@@ -114,9 +126,10 @@ namespace ReadingIsGood.Controllers
             newCustomer.Surname = surname;
             newCustomer.Username = username;
 
-            var dbResult = readingIsGoodRepository.CreateNewCustomer(newCustomer);
-            return Created(string.Empty, dbResult);
-
+            readingIsGoodRepository.CreateNewCustomer(newCustomer);
+            readingIsGoodDbContext.SaveChanges();
+            logger.LogInformation(string.Format(ReadingIsGoodResources.Infor_UserCreateSuccess, username));
+            return Created(string.Empty, newCustomer);
         }
     }
 }
